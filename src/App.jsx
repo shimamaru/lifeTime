@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "./components/Form/Form";
-
+import "./App.css";
 function App() {
   // state として、現在の残りの秒数を管理します。
   const [remainingSeconds, setRemainingSeconds] = useState(0);
@@ -33,11 +33,39 @@ function App() {
     setBirthDate(new Date(event.target.value));
   };
 
+  // 秒数を年・月・週・日・時・分・秒に変換する関数
+  const secondsToYMDHMS = (seconds) => {
+    const year = Math.floor(seconds / 31536000);
+    const month = Math.floor((seconds % 31536000) / 2592000);
+    const week = Math.floor(((seconds % 31536000) % 2592000) / 604800);
+    const day = Math.floor((((seconds % 31536000) % 2592000) % 604800) / 86400);
+    const hour = Math.floor(
+      ((((seconds % 31536000) % 2592000) % 604800) % 86400) / 3600
+    );
+    const minute = Math.floor(
+      (((((seconds % 31536000) % 2592000) % 604800) % 86400) % 3600) / 60
+    );
+    const second =
+      (((((seconds % 31536000) % 2592000) % 604800) % 86400) % 3600) % 60;
+    return { year, month, week, day, hour, minute, second };
+  };
+
+  const { year, month, week, day, hour, minute, second } =
+    secondsToYMDHMS(remainingSeconds);
+
   // 生年月日を表示するフォーム
   return (
     <div>
       <Form birthDate={birthDate} onBirthDateChange={handleBirthDateChange} />
-      <div>{remainingSeconds}</div>
+      <div className="time-wrapper">
+        <h1 className="second">{second} seconds</h1>
+        <h2 className="minute">{minute} minutes</h2>
+        <h3 className="hour">{hour} hours</h3>
+        <h4 className="day">{day} days</h4>
+        <h5 className="week">{week} weeks</h5>
+        <h6 className="month">{month} months</h6>
+        <h7 className="year">{year} years</h7>
+      </div>
     </div>
   );
 }
