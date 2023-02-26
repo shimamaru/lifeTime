@@ -55,6 +55,7 @@ function App() {
     secondsToYMDHMS(remainingSeconds);
 
   const loadListenerRef = useRef(null);
+
   useEffect(() => {
     loadListenerRef.current = onLoad;
     window.addEventListener("load", onLoad);
@@ -67,7 +68,6 @@ function App() {
       <Modal show={showModal} onClose={handleCloseModal}>
         <Form birthDate={birthDate} onBirthDateChange={handleBirthDateChange} />
       </Modal>
-
       <div className="time-wrapper">
         <h1 className="second">{second} seconds</h1>
         <h2 className="minute">{minute} minutes</h2>
